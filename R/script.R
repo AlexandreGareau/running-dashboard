@@ -201,7 +201,7 @@ pal <- colorNumeric(
 heatmap <-
 weighted_routes %>% 
   leaflet() %>% 
-  addProviderTiles(providers$Stadia.AlidadeSmoothDark) %>%
+  addProviderTiles(providers$OpenStreetMap) %>% 
   addPolylines(
     color = ~pal(weight),
     weight = 4,
