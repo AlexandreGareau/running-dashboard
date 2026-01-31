@@ -12,6 +12,7 @@ source("R/script.R")
 # Dashboard
 
 ## Icons 1 {width="35%"}
+
 ```{r don}
 #| content: valuebox
 #| title: "Don de bidoux"
@@ -42,8 +43,8 @@ list(
 )
 ```
 
-
 ## Icons 2 {width="35%"}
+
 ```{r rate}
 #| content: valuebox
 #| title: "Si la tendance ce maintien"
@@ -75,7 +76,6 @@ list(
 )
 ```
 
-
 ## Figure {width="30%"}
 
 ```{r}
@@ -83,7 +83,6 @@ list(
 #| fig-width: 3
 fig
 ```
-
 
 # Trajets
 
