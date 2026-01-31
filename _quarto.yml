@@ -1,0 +1,11 @@
+project:
+  type: website
+  output-dir: docs
+
+execute:
+  freeze: auto
+
+format:
+  html:
+    theme: flatly
+    toc: true
