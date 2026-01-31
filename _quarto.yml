@@ -2,6 +2,13 @@ project:
   type: website
   output-dir: docs
 
+website:
+  title: "My Dashboard"
+  navbar:
+    left:
+      - text: Home
+        href: dashboard.qmd
+
 execute:
   freeze: auto
 
