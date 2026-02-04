@@ -39,6 +39,8 @@ extract_gpx_stats <- function(gpx_file) {
 all <- list.files("data/gpx", full.names = T) %>% 
   map_df(~extract_gpx_stats(.x))
 
+sf::read_sf("data/gpx/20260201.gpx", layer = "track_points", quiet = TRUE)
+
 # Icon ----
 n <- nrow(all)
 
@@ -173,6 +175,7 @@ signature <- make_signature(all, 10, 50, 10)
 
 if (
   !file.exists(sig_path) ||
+  !file.exists(res_path) ||
   !identical(signature, readRDS(sig_path))
 ) {
   
@@ -201,7 +204,7 @@ pal <- colorNumeric(
 heatmap <-
 weighted_routes %>% 
   leaflet() %>% 
-  addProviderTiles(providers$OpenStreetMap) %>% 
+  addProviderTiles(providers$Esri.NatGeoWorldMap) %>% 
   addPolylines(
     color = ~pal(weight),
     weight = 4,
@@ -212,6 +215,4 @@ weighted_routes %>%
     values = ~weight,
     title = "Route usage"
   )
-
-sort(all$file)
 

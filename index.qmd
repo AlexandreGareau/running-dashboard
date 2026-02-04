@@ -1,101 +1,79 @@
 ---
-title: "Contribution au défi 4k - Olivier Querry"
-format: 
+title: "Défi 4k - Olivier Querry"
+
+execute:
+  freeze: auto
+  echo: false
+
+format:
   dashboard:
-    orientation: columns
+    theme: flatly
+    nav-buttons:
+      - icon: github
+        href: https://github.com/AlexandreGareau/running-dashboard
+    # orientation: columns
+
 ---
 
 ```{r setup}
-source("R/script.R")
+library(tidyverse)
 ```
 
-# Dashboard
+# Dons
+```{r}
+source("R/tab1.R")
+```
 
-## Icons 1 {width="35%"}
-
-```{r don}
+## Row1 {height=1fr}
+```{r}
 #| content: valuebox
 #| title: "Don de bidoux"
 list(
   icon = "coin",
   color = "#daa520",
-  value = paste0(n, "$")
+  value = paste0(1637, "$")
 )
 ```
-
-```{r nombre}
-#| content: valuebox
-#| title: "Nombre total de sortie"
-list(
-  icon = "check2-circle",
-  color = "primary",
-  value = n
-)
-```
-
-```{r average}
-#| content: valuebox
-#| title: "Nombre de sortie par semaine"
-list(
-  icon = "calendar2-week-fill",
-  color = "info",
-  value = round(weekly_average, 1)
-)
-```
-
-## Icons 2 {width="35%"}
-
-```{r rate}
-#| content: valuebox
-#| title: "Si la tendance ce maintien"
-list(
-  icon = "bar-chart-line-fill",
-  color = "light",
-  value = paste0(round(weekly_average, 1) * 53, "$")
-)
-
-```
-
-```{r km}
-#| content: valuebox
-#| title: "Nombre total de kilomètre"
-list(
-  icon = "signpost-split",
-  color = "light",
-  value = paste(round(km, 1), "km")
-)
-```
-
-```{r elevation}
-#| content: valuebox
-#| title: "Nombre total d'élévation"
-list(
-  icon = "chevron-double-up",
-  color = "light",
-  value = paste(round(elevation$up, 1), "m")
-)
-```
-
-## Figure {width="30%"}
 
 ```{r}
-#| fig-height: 5
-#| fig-width: 3
-fig
+#| content: valuebox
+#| title: "Objectif 4k"
+list(
+  icon = "signpost-split",
+  color = "primary",
+  value = paste(428.5, "km")
+)
 ```
 
-# Trajets
+## Row 2 {height=2fr}
 
-```{r route heatmap}
-heatmap
+```{r}
+#| fig-height: 3
+#| fig-width: 12
+ggpubr::ggarrange(dons_bar, km_line, ncol = 2)
 ```
 
-```{r route table}
-as_tibble(all) %>% select(-5) %>% 
-  mutate(
-    km = round(km, 1),
-    up = round(up),
-    down = round(down)
-    ) %>% 
-  DT::datatable()
+# Progression Olivier
+# Progression Alex
+```{r}
+
 ```
+
+## tabs {.tabset}
+### Indicateurs
+```{r}
+2
+```
+
+### Heatmap
+```{r}
+2
+```
+
+### Historique
+```{r}
+2
+```
+
+
+
