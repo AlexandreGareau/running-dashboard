@@ -8,10 +8,10 @@ execute:
 format:
   dashboard:
     theme: flatly
+    logo: logo/defi4k.png
     nav-buttons:
       - icon: github
         href: https://github.com/AlexandreGareau/running-dashboard
-    # orientation: columns
 
 ---
 
@@ -24,7 +24,7 @@ library(tidyverse)
 source("R/tab1.R")
 ```
 
-## Row1 {height=1fr}
+## Value Box {height=1fr}
 ```{r}
 #| content: valuebox
 #| title: "Don de bidoux"
@@ -45,7 +45,7 @@ list(
 )
 ```
 
-## Row 2 {height=2fr}
+## Figures {height=2fr}
 
 ```{r}
 #| fig-height: 3
@@ -56,7 +56,7 @@ ggpubr::ggarrange(dons_bar, km_line, ncol = 2)
 # Progression Olivier
 # Progression Alex
 ```{r}
-
+source("R/tabalex.R")
 ```
 
 ## tabs {.tabset}
@@ -67,12 +67,18 @@ ggpubr::ggarrange(dons_bar, km_line, ncol = 2)
 
 ### Heatmap
 ```{r}
-2
+heatmap
 ```
 
 ### Historique
-```{r}
-2
+```{r route table}
+as_tibble(all) %>% select(-5) %>% 
+  mutate(
+    km = round(km, 1),
+    up = round(up),
+    down = round(down)
+    ) %>% 
+  DT::datatable()
 ```
 
 

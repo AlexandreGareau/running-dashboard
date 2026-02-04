@@ -97,7 +97,7 @@ as_tibble(all) %>% select(-5) %>%
     up = round(up),
     down = round(down)
     ) %>% 
-  DT::datatable(style = "bootstrap")
+  DT::datatable()
 ```
 
 
