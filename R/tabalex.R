@@ -13,7 +13,8 @@ extract_gpx_stats <- function(gpx_file) {
   
   km <- route %>% 
     sf::st_length() %>% 
-    units::set_units("km")
+    units::set_units("km") %>% 
+    as.numeric()
   
   ele <- gpx %>% 
     mutate(
@@ -38,8 +39,6 @@ extract_gpx_stats <- function(gpx_file) {
 }
 all <- list.files("data/gpx", full.names = T) %>% 
   map_df(~extract_gpx_stats(.x))
-
-sf::read_sf("data/gpx/20260201.gpx", layer = "track_points", quiet = TRUE)
 
 # Icon ----
 n <- nrow(all)
@@ -196,23 +195,71 @@ if (
 
 ## Creating route heatmap ----
 pal <- colorNumeric(
-  palette = "plasma",
+  palette = c("orange","red", "darkred"),
   domain = weighted_routes$weight,
-  # reverse = TRUE,
 )
 
 heatmap <-
 weighted_routes %>% 
   leaflet() %>% 
-  addProviderTiles(providers$Esri.NatGeoWorldMap) %>% 
+  # addProviderTiles(providers$Esri.NatGeoWorldMap) %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>%
   addPolylines(
     color = ~pal(weight),
-    weight = 4,
-    opacity = 0.6
-  ) %>% 
-  addLegend(
-    pal = pal,
-    values = ~weight,
-    title = "Route usage"
-  )
+    weight = ~scales::rescale(weight, c(2,6)),
+    opacity = ~scales::rescale(weight, c(.3,1))
+  ) #%>% 
+  # addLegend(
+  #   pal = pal,
+  #   values = ~weight,
+  #   title = "Route usage"
+  # )
 
+# Calendrier ----
+
+
+# Step 1: Create full date sequence for the month
+year_start <- as.Date("2026-01-01")
+year_end <- as.Date("2026-12-31")
+all_dates <- data.frame(date = seq(year_start, year_end, by = "day"))
+
+week_in_month <- function(date, week_start = 1) {
+  stopifnot(inherits(date, "Date"))
+  
+  month_start <- lubridate::floor_date(date, "month")
+  wday_start  <- lubridate::wday(month_start, week_start = week_start)
+  days_w1     <- 8 - wday_start
+  
+  ifelse(
+    lubridate::day(date) <= days_w1,
+    1L,
+    2L + (lubridate::day(date) - days_w1 - 1) %/% 7
+  )
+}
+
+alex_cal <-
+  all %>% 
+  as_tibble() %>% 
+  select(1:2) %>% 
+  right_join(all_dates) %>% 
+  mutate(
+    day   = mday(date),
+    month = month(date, label = TRUE, abbr = FALSE),
+    wday  = wday(date, label = TRUE, week_start = 1),
+    week = week_in_month(date)
+  ) %>% 
+  filter(as.numeric(month) <= month(Sys.Date())) %>% 
+  
+  ggplot(aes(wday, week, fill = km)) +
+  facet_wrap(~month, ncol = 1, scales = "free") +
+  geom_tile(color = "grey", linewidth = 0.4) +
+  geom_text(aes(label = round(km, 1)), size = 3, color = "white") +
+  scale_y_reverse(breaks = 1:5) +
+  scale_fill_continuous(
+    na.value = "grey100", palette = c("darkorange", "darkred")
+  ) +
+  theme_classic() +
+  labs(x = "", y = "", fill = "km")
+theme(
+  legend.position = "top",
+)

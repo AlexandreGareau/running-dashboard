@@ -12,19 +12,22 @@ format:
     nav-buttons:
       - icon: github
         href: https://github.com/AlexandreGareau/running-dashboard
+    scrolling: true
 
 ---
 
-```{r setup}
+```{r package}
 library(tidyverse)
 ```
 
 # Dons
-```{r}
+```{r tab1 source}
 source("R/tab1.R")
 ```
 
-## Value Box {height=1fr}
+## tabs {.tabset}
+### Dons
+::: {.content-block}
 ```{r}
 #| content: valuebox
 #| title: "Don de bidoux"
@@ -34,35 +37,96 @@ list(
   value = paste0(1637, "$")
 )
 ```
+:::
+::: {.content-block}
+```{r}
+#| fig-height: 4
+#| fig-width: 6
+dons_bar
+```
+:::
 
+### Km
+::: {.content-block}
 ```{r}
 #| content: valuebox
 #| title: "Objectif 4k"
 list(
   icon = "signpost-split",
   color = "primary",
-  value = paste(428.5, "km")
+  value = paste("428.5km (10.7 %)")
 )
 ```
-
-## Figures {height=2fr}
-
+:::
+::: {.content-block}
 ```{r}
-#| fig-height: 3
-#| fig-width: 12
-ggpubr::ggarrange(dons_bar, km_line, ncol = 2)
+#| fig-height: 4
+#| fig-width: 6
+km_line
 ```
-
+:::
 # Progression Olivier
-# Progression Alex
+# Progression Alex {orientation=columns}
 ```{r}
 source("R/tabalex.R")
 ```
 
 ## tabs {.tabset}
 ### Indicateurs
-```{r}
-2
+```{r don}
+#| content: valuebox
+#| title: "Don de bidoux"
+list(
+  icon = "coin",
+  color = "#daa520",
+  value = paste0(n, "$")
+)
+```
+```{r nombre}
+#| content: valuebox
+#| title: "Nombre total de sortie"
+list(
+  icon = "check2-circle",
+  color = "primary",
+  value = n
+)
+```
+```{r average}
+#| content: valuebox
+#| title: "Nombre de sortie par semaine"
+list(
+  icon = "calendar2-week-fill",
+  color = "info",
+  value = round(weekly_average, 1)
+)
+```
+```{r rate}
+#| content: valuebox
+#| title: "Si la tendance ce maintien"
+list(
+  icon = "bar-chart-line-fill",
+  color = "light",
+  value = paste0(round(weekly_average, 1) * 53, "$")
+)
+
+```
+```{r km}
+#| content: valuebox
+#| title: "Nombre total de kilomètre"
+list(
+  icon = "signpost-split",
+  color = "light",
+  value = paste(round(km, 1), "km")
+)
+```
+```{r elevation}
+#| content: valuebox
+#| title: "Nombre total d'élévation"
+list(
+  icon = "chevron-double-up",
+  color = "light",
+  value = paste(round(elevation$up, 1), "m")
+)
 ```
 
 ### Heatmap
@@ -74,12 +138,21 @@ heatmap
 ```{r route table}
 as_tibble(all) %>% select(-5) %>% 
   mutate(
+    date = format(date, "%A, %d %B"),
     km = round(km, 1),
     up = round(up),
     down = round(down)
     ) %>% 
-  DT::datatable()
+  DT::datatable(
+    class = "compact hover",
+    options = list(dom = 't'),
+    width = 500)
 ```
 
+```{r}
+#| fig-height: 8
+#| fig-width: 6
+alex_cal
+```
 
 
