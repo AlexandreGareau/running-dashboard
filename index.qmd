@@ -66,8 +66,8 @@ km_line
 ```
 :::
 # Progression Olivier
-# Progression Alex {orientation=columns}
-```{r}
+# Progression Alex
+```{r source alex}
 source("R/tabalex.R")
 ```
 
@@ -146,7 +146,7 @@ as_tibble(all) %>% select(-5) %>%
   DT::datatable(
     class = "compact hover",
     options = list(dom = 't'),
-    width = 500)
+    width = 800)
 ```
 
 ```{r}

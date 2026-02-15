@@ -195,20 +195,34 @@ if (
 
 ## Creating route heatmap ----
 pal <- colorNumeric(
-  palette = c("orange","red", "darkred"),
+  # palette = c("orange","red", "darkred"),
+  palette = c("#f37714", "#fe340d", "#de2315"),
+  # palette = c("#12B8FF", "#1a9ad0", "#1780ad"),
   domain = weighted_routes$weight,
 )
 
+home <- data.frame(
+  lng = -75.788306, 
+  lat = 45.478691
+)
+
+home_icon <- awesomeIcons(
+    icon = "home",
+    markerColor = "orange"
+  )
+
 heatmap <-
 weighted_routes %>% 
-  leaflet() %>% 
+  leaflet(options = leafletOptions(minZoom = 12, maxZoom = 18)) %>% 
   # addProviderTiles(providers$Esri.NatGeoWorldMap) %>%
   addProviderTiles(providers$CartoDB.DarkMatter) %>%
   addPolylines(
     color = ~pal(weight),
     weight = ~scales::rescale(weight, c(2,6)),
     opacity = ~scales::rescale(weight, c(.3,1))
-  ) #%>% 
+  ) %>% 
+  addAwesomeMarkers(lng = home$lng, lat = home$lat, icon = home_icon)
+#%>% 
   # addLegend(
   #   pal = pal,
   #   values = ~weight,
@@ -216,7 +230,6 @@ weighted_routes %>%
   # )
 
 # Calendrier ----
-
 
 # Step 1: Create full date sequence for the month
 year_start <- as.Date("2026-01-01")
@@ -259,7 +272,29 @@ alex_cal <-
     na.value = "grey100", palette = c("darkorange", "darkred")
   ) +
   theme_classic() +
-  labs(x = "", y = "", fill = "km")
-theme(
-  legend.position = "top",
-)
+  labs(x = "", y = "", fill = "km") +
+  theme(
+    legend.position = "top"
+    )
+
+
+# elevation stack ----
+
+# list.files("data/gpx", full.names = T) %>% 
+#   map_df(function(gpx_file) {
+#     gpx <- sf::st_read(gpx_file, layer = "track_points", quiet = TRUE)
+#     
+#     date <- str_extract(gpx_file, "[0-9]+") %>% ymd()
+#     
+#     gpx %>% 
+#       st_drop_geometry() %>% 
+#       mutate(date = date)
+#   }) %>% 
+#   
+#   
+#   
+#   ggplot() +
+#   geom_line(aes(track_seg_point_id, ele, group = date)) +
+#   theme_bw()
+
+
