@@ -1,5 +1,5 @@
 ---
-title: "Défi 4k - Olivier Querry"
+title: "Contribution au défi 4k - Olivier Querry"
 
 execute:
   freeze: auto
@@ -13,66 +13,15 @@ format:
       - icon: github
         href: https://github.com/AlexandreGareau/running-dashboard
     scrolling: true
-
+    orientation: columns
 ---
 
-```{r package}
+```{r setup}
 library(tidyverse)
+source("R/main.R")
 ```
 
-# Dons
-```{r tab1 source}
-source("R/tab1.R")
-```
-
-## tabs {.tabset}
-### Dons
-::: {.content-block}
-```{r}
-#| content: valuebox
-#| title: "Don de bidoux"
-list(
-  icon = "coin",
-  color = "#daa520",
-  value = paste0(1637, "$")
-)
-```
-:::
-::: {.content-block}
-```{r}
-#| fig-height: 4
-#| fig-width: 6
-dons_bar
-```
-:::
-
-### Km
-::: {.content-block}
-```{r}
-#| content: valuebox
-#| title: "Objectif 4k"
-list(
-  icon = "signpost-split",
-  color = "primary",
-  value = paste("428.5km (10.7 %)")
-)
-```
-:::
-::: {.content-block}
-```{r}
-#| fig-height: 4
-#| fig-width: 6
-km_line
-```
-:::
-# Progression Olivier
-# Progression Alex
-```{r source alex}
-source("R/tabalex.R")
-```
-
-## tabs {.tabset}
-### Indicateurs
+## Indicateurs {width="30%"}
 ```{r don}
 #| content: valuebox
 #| title: "Don de bidoux"
@@ -82,6 +31,7 @@ list(
   value = paste0(n, "$")
 )
 ```
+
 ```{r nombre}
 #| content: valuebox
 #| title: "Nombre total de sortie"
@@ -91,68 +41,32 @@ list(
   value = n
 )
 ```
-```{r average}
-#| content: valuebox
-#| title: "Nombre de sortie par semaine"
-list(
-  icon = "calendar2-week-fill",
-  color = "info",
-  value = round(weekly_average, 1)
-)
-```
-```{r rate}
-#| content: valuebox
-#| title: "Si la tendance ce maintien"
-list(
-  icon = "bar-chart-line-fill",
-  color = "light",
-  value = paste0(round(weekly_average, 1) * 53, "$")
-)
 
-```
 ```{r km}
 #| content: valuebox
 #| title: "Nombre total de kilomètre"
 list(
   icon = "signpost-split",
   color = "light",
-  value = paste(round(km, 1), "km")
+  value = paste(round(km_sum, 1), "km")
 )
 ```
+
 ```{r elevation}
 #| content: valuebox
 #| title: "Nombre total d'élévation"
 list(
   icon = "chevron-double-up",
   color = "light",
-  value = paste(round(elevation$up, 1), "m")
+  value = paste(round(ele_sum, 1), "m")
 )
 ```
 
-### Heatmap
+## col2 
 ```{r}
 heatmap
 ```
 
-### Historique
-```{r route table}
-as_tibble(all) %>% select(-5) %>% 
-  mutate(
-    date = format(date, "%A, %d %B"),
-    km = round(km, 1),
-    up = round(up),
-    down = round(down)
-    ) %>% 
-  DT::datatable(
-    class = "compact hover",
-    options = list(dom = 't'),
-    width = 800)
-```
 
-```{r}
-#| fig-height: 8
-#| fig-width: 6
-alex_cal
-```
 
 

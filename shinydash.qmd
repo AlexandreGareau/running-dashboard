@@ -1,0 +1,56 @@
+---
+title: "Contribution au défi 4k - Olivier Querry"
+
+execute: 
+   freeze: auto 
+   echo: false
+   
+runtime: shiny
+   
+format:
+  dashboard:
+    theme: flatly
+    logo: logo/defi4k.png
+    nav-buttons:
+      - icon: github
+        href: https://github.com/AlexandreGareau/running-dashboard
+    # scrolling: true
+    
+server: shiny
+---
+
+```{r}
+source("R/tabalex.R")
+```
+
+# Dashboard
+
+```{r}
+#| context: server
+```
+
+# Historique
+
+## test
+
+```{r route table}
+as_tibble(all) %>% select(-5) %>% 
+  mutate(
+    date = format(date, "%A, %d %B"),
+    km = round(km, 1),
+    up = round(up),
+    down = round(down)
+    ) %>% 
+  DT::datatable(
+    class = "compact hover",
+    options = list(dom = 't'),
+    width = 800)
+```
+
+## test
+
+```{r}
+#| fig-height: 8
+#| fig-width: 6
+alex_cal
+```
