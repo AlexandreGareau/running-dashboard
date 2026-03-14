@@ -7,27 +7,26 @@ execute:
 
 format:
   dashboard:
-    theme: flatly
+    theme: solar
     logo: logo/defi4k.png
     nav-buttons:
       - icon: github
         href: https://github.com/AlexandreGareau/running-dashboard
-    scrolling: true
-    orientation: columns
 ---
 
-```{r setup}
+```{r setup, cache=TRUE}
 library(tidyverse)
 source("R/main.R")
 ```
 
+# Dashboard {orientation="columns"}
 ## Indicateurs {width="30%"}
 ```{r don}
 #| content: valuebox
 #| title: "Don de bidoux"
 list(
   icon = "coin",
-  color = "#daa520",
+  color = "primary",
   value = paste0(n, "$")
 )
 ```
@@ -37,36 +36,93 @@ list(
 #| title: "Nombre total de sortie"
 list(
   icon = "check2-circle",
-  color = "primary",
+  color = "info",
   value = n
 )
 ```
 
-```{r km}
+```{r km1}
 #| content: valuebox
 #| title: "Nombre total de kilomètre"
 list(
   icon = "signpost-split",
-  color = "light",
+  color = "success",
   value = paste(round(km_sum, 1), "km")
 )
 ```
 
-```{r elevation}
+```{r elevation1}
 #| content: valuebox
 #| title: "Nombre total d'élévation"
 list(
   icon = "chevron-double-up",
-  color = "light",
+  color = "success",
   value = paste(round(ele_sum, 1), "m")
 )
 ```
 
-## col2 
-```{r}
+
+## Heatmap
+```{r heatmap, cache=TRUE}
+#| title: Heatmap
 heatmap
 ```
 
+# Cumulative stats {orientation="columns"}
+## valuebox {width="25%"}
+``` {r}
+#| content: valuebox
+#| title: "Si ça continue comme ça"
+list(
+  icon = "coin",
+  color = "primary",
+  value = paste0(dplyr::last(money_pace_df$day_trend), "$")
+)
+```
 
+```{r km2}
+#| content: valuebox
+#| title: "Nombre total de kilomètre"
+list(
+  icon = "signpost-split",
+  color = "success",
+  value = paste(round(km_sum, 1), "km")
+)
+```
 
+```{r elevation2}
+#| content: valuebox
+#| title: "Nombre total d'élévation"
+list(
+  icon = "chevron-double-up",
+  color = "success",
+  value = paste(round(ele_sum, 1), "m")
+)
+```
+## trend lines {.tabset}
+```{r}
+knitr::opts_chunk$set(
+    out.width = "100%", # enough room to breath
+    out.height = "100%",
+    fig.width = 10,
+    fig.height = 5, # reasonable size
+    # fig.asp = 0.618,   # golden ratio
+    fig.align = "center" # mostly what I want
+)
+```
+
+### Objectif 100$
+```{r}
+money_pace
+```
+
+### Km
+```{r}
+cum_km
+```
+
+### Élévation
+```{r}
+cum_up
+```
 
