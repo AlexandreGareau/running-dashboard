@@ -7,9 +7,11 @@ ele_sum <- sum(stats$up)
 # Heatmap ----
 source("R/weighting_routes.R")
 library(leaflet)
+library(leafgl)
 pal <- colorNumeric(
   # palette = c("orange","red", "darkred"),
-  palette = c("#f37714", "#fe340d", "#de2315"),
+  # palette = c("#f37714", "#fe340d", "#de2315"),
+  palette = c("#B58900"),
   # palette = c("#12B8FF", "#1a9ad0", "#1780ad"),
   domain = weighted_routes$weight,
 )
@@ -17,8 +19,8 @@ pal <- colorNumeric(
 heatmap <-
 weighted_routes %>% 
   leaflet(options = leafletOptions(minZoom = 12, maxZoom = 15)) %>% 
-  # addProviderTiles(providers$Esri.NatGeoWorldMap) %>%
-  addProviderTiles(providers$CartoDB.DarkMatter) %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>% 
+  # addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolylines(
     color = ~pal(weight),
     weight = ~scales::rescale(weight, c(2,6)),
@@ -78,7 +80,7 @@ cum_plot <- function(col) {
       alpha = 0.6,
     ) +
     # Cumulative line (already scaled per metric)
-    geom_line(
+    geom_step(
       aes(y = cum_scaled),
       color = "#B58900",
       linewidth = 1
@@ -110,7 +112,6 @@ cum_plot <- function(col) {
       strip.text = element_text(face = "bold", color = "#EEE8D5", size = 14)
     )
 }
-
 cum_km <- cum_plot("km")
 cum_up <- cum_plot("up")
 
@@ -156,8 +157,3 @@ money_pace_df %>%
   guides(size = "none", color = "none") +
   labs(x = "", title = "") +
   theme_solar()
-
-
-
-
-

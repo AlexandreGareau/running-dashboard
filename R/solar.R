@@ -47,7 +47,7 @@ theme_solar <- function(base_size = 12, base_family = "") {
 
 scale_color_solar <- function() {
   scale_color_manual(values = c(
-    "#B58900",
+    "##",
     "#CB4B16",
     "#2AA198",
     "#859900",

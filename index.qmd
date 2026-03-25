@@ -17,6 +17,15 @@ format:
 ```{r setup, cache=TRUE}
 library(tidyverse)
 source("R/main.R")
+
+knitr::opts_chunk$set(
+    out.width = "100%", # enough room to breath
+    out.height = "100%",
+    fig.width = 9,
+    fig.height = 5, # reasonable size
+    fig.asp = 0.618,   # golden ratio
+    fig.align = "center" # mostly what I want
+)
 ```
 
 # Dashboard {orientation="columns"}
@@ -76,7 +85,7 @@ heatmap
 list(
   icon = "coin",
   color = "primary",
-  value = paste0(dplyr::last(money_pace_df$day_trend), "$")
+  value = paste0(round(dplyr::last(money_pace_df$day_trend)), "$")
 )
 ```
 
@@ -100,17 +109,6 @@ list(
 )
 ```
 ## trend lines {.tabset}
-```{r}
-knitr::opts_chunk$set(
-    out.width = "100%", # enough room to breath
-    out.height = "100%",
-    fig.width = 10,
-    fig.height = 5, # reasonable size
-    # fig.asp = 0.618,   # golden ratio
-    fig.align = "center" # mostly what I want
-)
-```
-
 ### Objectif 100$
 ```{r}
 money_pace
@@ -125,4 +123,3 @@ cum_km
 ```{r}
 cum_up
 ```
-
