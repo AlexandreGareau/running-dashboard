@@ -111,6 +111,7 @@ list(
 ## trend lines {.tabset}
 ### Objectif 100$
 ```{r}
+#| fig-width: 12
 money_pace
 ```
 
