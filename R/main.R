@@ -7,7 +7,8 @@ ele_sum <- sum(stats$up)
 # Heatmap ----
 source("R/weighting_routes.R")
 library(leaflet)
-library(leafgl)
+# library(leafgl)
+
 pal <- colorNumeric(
   # palette = c("orange","red", "darkred"),
   # palette = c("#f37714", "#fe340d", "#de2315"),
