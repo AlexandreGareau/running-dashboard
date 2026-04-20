@@ -19,6 +19,7 @@ library(tidyverse)
 source("R/main.R")
 
 knitr::opts_chunk$set(
+  
     out.width = "100%", # enough room to breath
     out.height = "100%",
     fig.width = 9,
