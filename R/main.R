@@ -18,9 +18,9 @@ pal <- colorNumeric(
 )
 
 heatmap <-
-weighted_routes %>% 
-  leaflet(options = leafletOptions(minZoom = 12, maxZoom = 15)) %>% 
-  addProviderTiles(providers$CartoDB.DarkMatter) %>% 
+weighted_routes %>%
+  leaflet(options = leafletOptions(minZoom = 12, maxZoom = 15)) %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>%
   # addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addPolylines(
     color = ~pal(weight),
@@ -58,13 +58,13 @@ cum_plot <- function(col) {
   if (col == "km") {
     metric_label <- "Kilomètre (km)"
     unit <- "km"
-    daily_break <- seq(0,20,1)
+    daily_break <- seq(0,20,2)
     cum_break <- seq(0,1000,10)
   } else if (col == "up") {
     metric_label <- "Élévation (m)"
     unit <- "m"
     daily_break <- seq(0,500, 10)
-    cum_break <- seq(0,3000,100)
+    cum_break <- seq(0,10000,250)
   } 
   
   
@@ -129,14 +129,14 @@ money_pace_df <-
   )
 
   # Plot
-money_pace <- 
-money_pace_df %>% 
+money_pace <-
+money_pace_df %>%
   ggplot(aes(date, day_trend, group = 1)) +
   geom_line(color = "#2AA198", linewidth = 1) +
   geom_point(aes(color = is.na(km))) +
   geom_text(aes(label = icon, nudge_y = nudge, color = is.na(km), size = !is.na(km)), show.legend = F) +
   geom_hline(yintercept = 100, linewidth = 1, color = "#B58900") +
-  annotate("text", x = Sys.Date(), y = 110, label = "Objectif 100$", color = "#B58900") +
+  # annotate("text", x = Sys.Date(), y = 110, label = "Objectif 100$", color = "#B58900") +
   
   # Scale
   scale_colour_manual(
